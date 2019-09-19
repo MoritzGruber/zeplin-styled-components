@@ -1,6 +1,10 @@
 // @flow
 import humps from 'humps';
-import { sortKeys, getColorStringByFormat } from '../utils';
+import {
+  sortKeys,
+  getColorStringByFormat,
+  convertStringToPropperClassName
+} from '../utils';
 
 type Color = {
   r: number,
@@ -15,8 +19,8 @@ export const generateColors = (options, context, colors: Colors) => {
   const colorObject = colors.reduce(
     (acc, curr) => ({
       ...acc,
-      [humps.camelize(
-        curr.name.replace(/\//g, '-').toLowerCase()
+      [convertStringToPropperClassName(
+        humps.camelize(curr.name.replace(/\//g, '-').toLowerCase())
       )]: `'${getColorStringByFormat(curr, options.colorFormat)}'`
     }),
     {}

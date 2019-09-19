@@ -1,6 +1,6 @@
 // @flow
 import humps from 'humps';
-import { convertToCss } from '../utils';
+import { convertToCss, convertStringToPropperClassName } from '../utils';
 
 import { INDENTATION } from '../config';
 
@@ -11,7 +11,9 @@ type TextStyle = {
 };
 
 const convertTextStyle = (options, context, textStyle: TextStyle) => {
-  const name = humps.camelize(textStyle.name.replace(/\//g, '-').toLowerCase());
+  const name = convertStringToPropperClassName(
+    humps.camelize(textStyle.name.replace(/\//g, '-').toLowerCase())
+  );
   const pre = `${INDENTATION}${name}: css\``;
   const cssCode = Object.keys(textStyle)
     .map(key =>
@@ -38,7 +40,11 @@ export const generateTextStyles = (
     excludeProperties = excludeProperties.concat(
       options.excludeProperties
         .split(',')
-        .map(prop => humps.camelize(prop.replace(/\//g, '-').toLowerCase()))
+        .map(prop =>
+          convertStringToPropperClassName(
+            humps.camelize(prop.replace(/\//g, '-').toLowerCase())
+          )
+        )
     );
   }
   const pre = `

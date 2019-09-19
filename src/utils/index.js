@@ -1,6 +1,9 @@
 import humps from 'humps';
 import { INDENTATION } from '../config';
 
+export const convertStringToPropperClassName = inputString =>
+  inputString.replace(/[!"#$%&'/\\~]/g, '_').trim();
+
 export const round = (number, decimalPlaces = 2) =>
   parseFloat(number.toFixed(decimalPlaces));
 
@@ -105,7 +108,9 @@ export const getThemeTextStyle = (options, context, textStyle) => {
   if (foundEqual) {
     return getDestructure(
       options.textStyleThemeNameSpace,
-      humps.camelize(foundEqual.name.replace(/\//g, '-').toLowerCase())
+      convertStringToPropperClassName(
+        humps.camelize(foundEqual.name.replace(/\//g, '-').toLowerCase())
+      )
     );
   }
   return '';
@@ -116,7 +121,9 @@ export const getThemeColor = (options, context, color) => {
   if (foundColor && foundColor.name) {
     return getDestructure(
       options.colorThemeNameSpace,
-      humps.camelize(foundColor.name.replace(/\//g, '-').toLowerCase())
+      convertStringToPropperClassName(
+        humps.camelize(foundColor.name.replace(/\//g, '-').toLowerCase())
+      )
     );
   }
   return getColorStringByFormat(color, options.colorFormat);

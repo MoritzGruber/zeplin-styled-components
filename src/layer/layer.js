@@ -5,7 +5,8 @@ import {
   getThemeTextStyle,
   convertToCss,
   generateBoxShadow,
-  generateBorder
+  generateBorder,
+  convertStringToPropperClassName
 } from '../utils';
 import { INDENTATION } from '../config';
 
@@ -50,7 +51,11 @@ export const generateLayerStyle = (options, context, layer) => {
     excludeProperties = excludeProperties.concat(
       options.excludeProperties
         .split(',')
-        .map(prop => humps.camelize(prop.replace(/\//g, '-').toLowerCase()))
+        .map(prop =>
+          convertStringToPropperClassName(
+            humps.camelize(prop.replace(/\//g, '-').toLowerCase())
+          )
+        )
     );
   }
   const pre = `export const ${humps.pascalize(
